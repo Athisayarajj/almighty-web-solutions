@@ -12,6 +12,13 @@ function showScreen(id) {
   });
   document.getElementById("admin-dashboard").style.display = "none";
   clearAuthMessages();
+  if (id === "screen-forgot") {
+    document.getElementById("forgot-email-wrap").style.display = "block";
+    document.getElementById("forgot-code-wrap").style.display = "none";
+    document.getElementById("forgot-sub").textContent = "Enter your admin email — we'll send a reset code";
+    document.getElementById("forgot-email").value = "";
+    document.getElementById("forgot-code").value = "";
+  }
 }
 
 function showDashboard() {
