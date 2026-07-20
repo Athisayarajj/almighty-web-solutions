@@ -76,30 +76,56 @@ async function doLogout() {
 }
 
 // ── FORGOT PASSWORD ───────────────────────────────────────────────────────
+// ── FORGOT PASSWORD — STEP 1: request emailed code ────────────────────────
 async function doForgot() {
   const btn   = document.getElementById("forgot-btn");
   const email = document.getElementById("forgot-email").value.trim();
+  clearAuthMessages();
+
+  if (!email) { showErr("forgot-error","Please enter your admin email."); return; }
+
+  btn.disabled = true; btn.textContent = "Sending…";
+  try {
+    const res  = await apiFetch("/api/auth/forgot-password", { method:"POST", body: JSON.stringify({email}) });
+    const data = await res.json();
+    if (res.ok) {
+      showSuccess("forgot-success","✓ Code sent! Check your email (may take a minute).");
+      document.getElementById("forgot-email-wrap").style.display = "none";
+      document.getElementById("forgot-code-wrap").style.display = "block";
+      document.getElementById("forgot-sub").textContent = "Enter the 6-digit code we emailed you";
+      document.getElementById("forgot-code").focus();
+    } else {
+      showErr("forgot-error", data.error || "Could not send reset code.");
+    }
+  } catch { showErr("forgot-error","Cannot connect to server. Check your connection."); }
+  finally { btn.disabled = false; btn.textContent = "Send Reset Code →"; }
+}
+
+// ── FORGOT PASSWORD — STEP 2: verify emailed code ──────────────────────────
+async function doVerifyCode() {
+  const btn   = document.getElementById("verify-code-btn");
+  const email = document.getElementById("forgot-email").value.trim();
   const code  = document.getElementById("forgot-code").value.trim();
 
-  if (!email || !code) { showErr("forgot-error","Please enter your email and reset code."); return; }
+  if (!code) { showErr("forgot-error","Please enter the code from your email."); return; }
 
   btn.disabled = true; btn.textContent = "Verifying…";
   try {
-    const res  = await apiFetch("/api/auth/forgot-password", { method:"POST", body: JSON.stringify({email, reset_code: code}) });
+    const res  = await apiFetch("/api/auth/verify-reset-code", { method:"POST", body: JSON.stringify({email, code}) });
     const data = await res.json();
     if (res.ok) {
       resetToken = data.reset_token;
       showSuccess("forgot-success","✓ Verified! Redirecting to change password…");
-      document.getElementById("forgot-form-wrap").style.display = "none";
+      document.getElementById("forgot-code-wrap").style.display = "none";
       setTimeout(() => {
         showScreen("screen-change-pw");
         document.getElementById("changepw-back-links").style.display = "none";
-      }, 1200);
+      }, 1000);
     } else {
-      showErr("forgot-error", data.error || "Verification failed.");
+      showErr("forgot-error", data.error || "Invalid or expired code.");
     }
-  } catch { showErr("forgot-error","Connection error."); }
-  finally { btn.disabled = false; btn.textContent = "Verify & Continue →"; document.getElementById("forgot-code").value = ""; }
+  } catch { showErr("forgot-error","Cannot connect to server. Check your connection."); }
+  finally { btn.disabled = false; btn.textContent = "Verify Code →"; document.getElementById("forgot-code").value = ""; }
 }
 
 // ── CHANGE PASSWORD (forgot flow) ─────────────────────────────────────────
