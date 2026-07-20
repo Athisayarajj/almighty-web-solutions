@@ -46,24 +46,27 @@
   <div class="auth-card">
     <div class="auth-logo">Almighty <span>Web</span></div>
     <h2 class="auth-title">Reset Password</h2>
-    <p class="auth-sub">Enter your admin email and secret reset code</p>
+    <p class="auth-sub" id="forgot-sub">Enter your admin email — we'll send a reset code</p>
     <div class="auth-error" id="forgot-error" style="display:none"></div>
     <div class="auth-success" id="forgot-success" style="display:none"></div>
 
-    <div id="forgot-form-wrap">
+    <div id="forgot-email-wrap">
       <div class="form-group">
         <label class="field-label">Admin Email</label>
-        <input class="field-input" type="email" id="forgot-email" placeholder="almightywebsolutions@gmail.com"/>
+        <input class="field-input" type="email" id="forgot-email" placeholder="almightywebsolutions@gmail.com"
+          onkeydown="if(event.key==='Enter')doForgot()"/>
       </div>
-      <div class="form-group" style="margin-top:1rem">
-        <label class="field-label">Reset Code <span class="label-hint">(set in Render env: RESET_CODE)</span></label>
-        <div class="pw-wrap">
-          <input class="field-input" type="password" id="forgot-code" placeholder="Enter your secret reset code"
-            onkeydown="if(event.key==='Enter')doForgot()"/>
-          <button class="pw-toggle" onclick="togglePw('forgot-code')" type="button">👁</button>
-        </div>
+      <button class="btn-auth" onclick="doForgot()" id="forgot-btn">Send Reset Code →</button>
+    </div>
+
+    <div id="forgot-code-wrap" style="display:none">
+      <div class="form-group">
+        <label class="field-label">Reset Code <span class="label-hint">(check your email)</span></label>
+        <input class="field-input" type="text" id="forgot-code" placeholder="6-digit code" maxlength="6"
+          inputmode="numeric" onkeydown="if(event.key==='Enter')doVerifyCode()"/>
       </div>
-      <button class="btn-auth" onclick="doForgot()" id="forgot-btn">Verify & Continue →</button>
+      <button class="btn-auth" onclick="doVerifyCode()" id="verify-code-btn">Verify Code →</button>
+      <button class="auth-link-btn" style="margin-top:0.75rem" onclick="doForgot()">Resend code</button>
     </div>
 
     <div class="auth-links">
