@@ -75,7 +75,6 @@ async function doLogout() {
   showScreen("screen-login");
 }
 
-// ── FORGOT PASSWORD ───────────────────────────────────────────────────────
 // ── FORGOT PASSWORD — STEP 1: request emailed code ────────────────────────
 async function doForgot() {
   const btn   = document.getElementById("forgot-btn");
@@ -342,6 +341,7 @@ function editProject(id) {
     document.getElementById("f-emoji").value    = p.emoji        || "";
     document.getElementById("f-img").value      = p.img_url      || "";
     document.getElementById("form-title").textContent = "Edit Project";
+    updateShotPreview();
     showView("add");
   }).catch(() => showToast("Could not load project."));
 }
@@ -391,6 +391,60 @@ function clearForm() {
   });
   const cat = document.getElementById("f-category"); if (cat) cat.value = "Seafood";
   const st  = document.getElementById("f-status");   if (st)  st.value  = "done";
+  updateShotPreview();
+}
+
+// ── SCREENSHOTS: auto-capture, manual upload, preview ───────────────────────
+function updateShotPreview() {
+  const url  = document.getElementById("f-img").value.trim();
+  const prev = document.getElementById("shot-preview");
+  if (!prev) return;
+  if (url) { prev.src = url; prev.style.display = "block"; }
+  else     { prev.style.display = "none"; prev.src = ""; }
+}
+
+function captureScreenshot() {
+  const liveUrl = document.getElementById("f-url").value.trim();
+  const hint    = document.getElementById("shot-hint");
+  if (!liveUrl) { showToast("Enter the Live URL first, then auto-capture."); return; }
+  let normalized = liveUrl;
+  if (!/^https?:\/\//i.test(normalized)) normalized = "https://" + normalized;
+  // thum.io — free screenshot rendering service, no API key needed.
+  const shotUrl = `https://image.thum.io/get/width/1200/crop/900/${normalized}`;
+  document.getElementById("f-img").value = shotUrl;
+  updateShotPreview();
+  if (hint) hint.textContent = "Capturing… first render can take 5–10s to appear.";
+  showToast("Capturing screenshot from URL…");
+}
+
+async function uploadScreenshot(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  if (file.size > 8 * 1024 * 1024) { showToast("Image too large (max 8MB)."); evt.target.value = ""; return; }
+
+  const fd = new FormData();
+  fd.append("file", file);
+  showToast("Uploading screenshot…");
+  try {
+    const token = getToken();
+    const res = await fetch(API_BASE + "/api/upload", {
+      method: "POST",
+      headers: token ? { "X-Auth-Token": token } : {},
+      body: fd,
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("f-img").value = data.url;
+      updateShotPreview();
+      showToast("Screenshot uploaded! ✓");
+    } else {
+      showToast(data.error || "Upload failed.");
+    }
+  } catch {
+    showToast("Cannot connect to server. Check your connection.");
+  } finally {
+    evt.target.value = "";
+  }
 }
 
 // ── STATS ─────────────────────────────────────────────────────────────────
