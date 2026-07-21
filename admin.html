@@ -213,8 +213,15 @@
             <input class="field-input" id="f-emoji" placeholder="🦐" maxlength="4"/>
           </div>
           <div class="form-group full">
-            <label class="field-label">Thumbnail URL <span class="label-hint">(imgbb / Cloudinary link)</span></label>
-            <input class="field-input" id="f-img" placeholder="https://i.ibb.co/your-image.jpg"/>
+            <label class="field-label">Screenshot</label>
+            <div class="shot-row">
+              <input class="field-input" id="f-img" placeholder="https://... (or capture/upload below)" oninput="updateShotPreview()"/>
+              <button type="button" class="btn-shot" onclick="captureScreenshot()" id="capture-btn">📸 Auto-capture</button>
+              <label class="btn-shot btn-upload-label" for="f-img-file">⬆ Upload</label>
+              <input type="file" id="f-img-file" accept="image/*" style="display:none" onchange="uploadScreenshot(event)"/>
+            </div>
+            <p class="field-hint" id="shot-hint">Auto-capture renders a live screenshot from the Live URL field above. Or upload your own image.</p>
+            <img id="shot-preview" class="shot-preview" style="display:none" alt="Screenshot preview"/>
           </div>
         </div>
         <input type="hidden" id="f-id"/>
