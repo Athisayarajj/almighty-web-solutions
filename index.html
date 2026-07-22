@@ -3,15 +3,268 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Almighty Web Solutions — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Almighty Web Solutions — Digital World</title>
+<meta name="description" content="Web design & development studio in Thoothukudi, Tamil Nadu — custom websites, booking systems, IoT dashboards and travel apps."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Saira:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
+<style>
+/* =========================================================================
+   ALMIGHTY WEB SOLUTIONS — DIGITAL WORLD
+   Cinematic 3D scroll-driven experience layered on top of the original
+   site content. Base tokens (--navy/--cobalt/--emerald/--gold) come from
+   css/style.css and are extended here with glass + glow variables.
+   ========================================================================= */
+:root{
+  --void:#03050a;
+  --glass:rgba(13,21,38,0.56);
+  --glass-strong:rgba(10,16,30,0.78);
+  --glass-border:rgba(120,160,255,0.18);
+  --glow-cobalt:0 0 30px rgba(47,111,237,0.45);
+  --glow-emerald:0 0 30px rgba(34,224,166,0.4);
+  --glow-gold:0 0 26px rgba(212,160,23,0.35);
+  --mono:'Space Mono',monospace;
+}
+*{scrollbar-color:rgba(91,141,247,0.5) rgba(8,13,24,0.4)}
+html,body{background:var(--void);overflow-x:hidden;max-width:100%}
+body{color:#EAF0FF}
+::selection{background:rgba(34,224,166,0.35);color:#fff}
+
+/* ---------- persistent 3D background ---------- */
+#bg-canvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;
+  background:radial-gradient(ellipse 120% 90% at 50% 20%,#0c1730 0%,#050a16 55%,#020409 100%)}
+#grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+  box-shadow:inset 0 0 220px rgba(0,0,0,0.75)}
+
+/* ---------- everything else lives above the world ---------- */
+#site-nav,main#world,footer{position:relative;z-index:5}
+
+/* ---------- glass panel utility ---------- */
+.glass-panel{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;
+  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+.hud-eyebrow{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--emerald-light);display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:1rem}
+.hud-eyebrow::before,.hud-eyebrow::after{content:"";width:22px;height:1px;background:currentColor;opacity:0.6}
+.hud-corner{position:absolute;width:22px;height:22px;border-color:var(--cobalt-light);opacity:0.55;pointer-events:none}
+.hud-corner.tl{top:10px;left:10px;border-top:2px solid;border-left:2px solid;border-radius:6px 0 0 0}
+.hud-corner.tr{top:10px;right:10px;border-top:2px solid;border-right:2px solid;border-radius:0 6px 0 0}
+.hud-corner.bl{bottom:10px;left:10px;border-bottom:2px solid;border-left:2px solid;border-radius:0 0 0 6px}
+.hud-corner.br{bottom:10px;right:10px;border-bottom:2px solid;border-right:2px solid;border-radius:0 0 6px 0}
+
+/* =========================================================================
+   INTRO / SCENE 1 — DIGITAL AWAKENING
+   ========================================================================= */
+#intro-loader{position:fixed;inset:0;z-index:999;background:#020408;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;overflow:hidden;
+  transition:opacity 0.9s ease,visibility 0.9s ease}
+#intro-loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro-particles{position:absolute;inset:0;overflow:hidden}
+.intro-dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--emerald-light);
+  box-shadow:0 0 10px 2px rgba(34,224,166,0.8);opacity:0}
+.intro-content{position:relative;text-align:center;padding:0 1.5rem}
+.intro-mark{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.4em;color:var(--cobalt-light);
+  text-transform:uppercase;margin-bottom:1.4rem;opacity:0}
+.intro-title{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,5.4vw,3.2rem);
+  color:#fff;letter-spacing:0.02em;margin-bottom:0.6rem}
+.intro-title .ch{display:inline-block;opacity:0;transform:translateY(18px)}
+.intro-sub{font-family:var(--mono);font-size:0.78rem;color:rgba(234,240,255,0.5);letter-spacing:0.08em;
+  margin-bottom:2.4rem;opacity:0}
+.intro-bar{width:min(280px,70vw);height:2px;background:rgba(255,255,255,0.1);border-radius:2px;
+  overflow:hidden;margin:0 auto 2rem}
+.intro-bar-fill{width:0%;height:100%;background:linear-gradient(90deg,var(--emerald),var(--cobalt-light));
+  box-shadow:0 0 12px rgba(34,224,166,0.7)}
+.intro-skip{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(234,240,255,0.55);background:transparent;border:1px solid rgba(255,255,255,0.22);
+  border-radius:100px;padding:0.55rem 1.4rem;cursor:pointer;transition:all 0.2s;opacity:0}
+.intro-skip:hover{color:#fff;border-color:var(--emerald-light);box-shadow:var(--glow-emerald)}
+.intro-skip:focus-visible{outline:2px solid var(--cobalt-light);outline-offset:3px}
+
+/* =========================================================================
+   NAV
+   ========================================================================= */
+nav{background:rgba(4,7,14,0.55);backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(120,160,255,0.14)}
+nav.scrolled{background:rgba(3,5,10,0.86)}
+.nav-logo{font-family:var(--display);letter-spacing:0.04em}
+.nav-links a{font-family:var(--sans)}
+
+/* =========================================================================
+   SHARED SCENE FRAME
+   ========================================================================= */
+main#world section{position:relative}
+.scene-tag{position:absolute;top:96px;left:5%;font-family:var(--mono);font-size:0.68rem;
+  letter-spacing:0.3em;text-transform:uppercase;color:rgba(234,240,255,0.32);z-index:2}
+@media(max-width:768px){.scene-tag{display:none}}
+
+/* =========================================================================
+   SCENE 2+3 — HERO (DIGITAL CITY) + CREATOR HOLOGRAM
+   ========================================================================= */
+#hero{min-height:100vh;display:flex;align-items:center;padding:130px 5% 70px;background:none;overflow:visible}
+.hero-inner{display:grid;grid-template-columns:1fr 360px;gap:4rem;align-items:center;
+  max-width:1180px;margin:0 auto;width:100%;position:relative;z-index:3}
+.hero-badge{font-family:var(--mono);background:rgba(255,255,255,0.05);border:1px solid var(--glass-border)}
+h1{text-shadow:0 4px 40px rgba(47,111,237,0.25)}
+.hero-sub{color:rgba(234,240,255,0.62)}
+.hero-stats{border-top:1px solid rgba(120,160,255,0.18)}
+.stat-label{color:rgba(234,240,255,0.42)}
+
+.photo-card{position:relative;background:var(--glass);border:1px solid var(--glass-border);
+  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:0 25px 70px rgba(0,0,0,0.45),0 0 0 1px rgba(120,160,255,0.06)}
+.photo-frame{position:relative;border-color:var(--emerald-light)}
+.photo-frame::before{content:"";position:absolute;inset:-10px;border-radius:50%;
+  border:1px solid rgba(34,224,166,0.35);animation:ring-spin 12s linear infinite}
+.photo-frame::after{content:"";position:absolute;inset:-20px;border-radius:50%;
+  border:1px dashed rgba(47,111,237,0.3);animation:ring-spin 20s linear infinite reverse}
+@keyframes ring-spin{to{transform:rotate(360deg)}}
+.photo-tag{background:rgba(34,224,166,0.09);border-color:rgba(34,224,166,0.3);color:var(--emerald-light);
+  font-family:var(--mono)}
+.msme-badge{font-family:var(--mono)}
+
+/* =========================================================================
+   SCENE 4 — TECHNOLOGY LAB (SERVICES)
+   ========================================================================= */
+.sec-services{background:none;padding:150px 5% 120px}
+.sec-title,.contact-title{color:#fff}
+.sec-title em,.contact-title em{color:var(--emerald-light)}
+.sec-eyebrow{display:none} /* replaced by .hud-eyebrow */
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-top:1rem}
+.service-card{position:relative;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:18px;color:#EAF0FF;overflow:hidden;transform-style:preserve-3d;will-change:transform;
+  transition:box-shadow 0.3s ease,border-color 0.3s ease}
+.service-card::before{background:linear-gradient(90deg,var(--emerald-light),var(--cobalt-light))}
+.service-card:hover{box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow-emerald);border-color:rgba(34,224,166,0.4)}
+.service-icon{background:rgba(34,224,166,0.1);border:1px solid rgba(34,224,166,0.25);box-shadow:0 0 22px rgba(34,224,166,0.18)}
+.service-card h3{color:#fff}
+.service-card p{color:rgba(234,240,255,0.55)}
+
+/* =========================================================================
+   SCENE 6 — COMMAND CENTER (STATS STRIP)
+   ========================================================================= */
+.stats-strip{background:none;padding:90px 5%;position:relative}
+.stats-inner{position:relative;z-index:2}
+.stat-block{position:relative;padding:1.2rem 0.5rem}
+.stat-block-num{font-family:var(--mono);color:var(--emerald-light);text-shadow:0 0 26px rgba(34,224,166,0.45)}
+.stat-block-label{font-family:var(--mono);letter-spacing:0.1em;font-size:0.72rem;text-transform:uppercase}
+.radar-ring{position:absolute;left:50%;top:50%;width:340px;height:340px;margin:-170px 0 0 -170px;
+  border:1px solid rgba(47,111,237,0.18);border-radius:50%;pointer-events:none;z-index:1}
+.radar-ring.r2{width:220px;height:220px;margin:-110px 0 0 -110px;border-color:rgba(34,224,166,0.15)}
+.radar-sweep{position:absolute;left:50%;top:50%;width:170px;height:1px;margin-top:-0.5px;
+  background:linear-gradient(90deg,rgba(34,224,166,0.55),transparent);transform-origin:left center;
+  animation:radar-spin 6s linear infinite;pointer-events:none;z-index:1}
+@keyframes radar-spin{to{transform:rotate(360deg)}}
+
+/* =========================================================================
+   SCENE 5 — PROJECT UNIVERSE (PORTFOLIO)
+   ========================================================================= */
+.sec-gray{background:none;padding:150px 5% 120px}
+.filter-bar{gap:0.6rem}
+.filter-btn{background:var(--glass);border:1px solid var(--glass-border);color:rgba(234,240,255,0.6);
+  font-family:var(--mono);font-size:0.74rem;letter-spacing:0.03em}
+.filter-btn.active,.filter-btn:hover{background:var(--emerald-light);border-color:var(--emerald-light);color:#02150e;box-shadow:var(--glow-emerald)}
+.status-filter-bar{margin-bottom:2.2rem}
+.sf-label{font-family:var(--mono);color:rgba(234,240,255,0.4)}
+.sf-btn{border-color:var(--glass-border);color:rgba(234,240,255,0.6);font-family:var(--mono);font-size:0.7rem}
+.sf-btn.active,.sf-btn:hover{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+#projects-grid{position:relative;z-index:2}
+.project-card{background:var(--glass);border:1px solid var(--glass-border);color:#EAF0FF;
+  box-shadow:0 16px 40px rgba(0,0,0,0.35)}
+.project-card::before{background:linear-gradient(90deg,var(--emerald-light),var(--cobalt-light))}
+.project-card:hover{border-color:rgba(34,224,166,0.4);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow-emerald)}
+.card-thumb-ph{background:linear-gradient(135deg,rgba(47,111,237,0.14),rgba(34,224,166,0.1))}
+.card-cat{color:rgba(234,240,255,0.4);font-family:var(--mono)}
+.card-title{color:#fff}
+.card-desc{color:rgba(234,240,255,0.55)}
+.card-tag{color:var(--emerald-light);background:rgba(34,224,166,0.08);border-color:rgba(34,224,166,0.24);font-family:var(--mono)}
+.card-footer{border-top-color:var(--glass-border)}
+.card-link{color:var(--cobalt-light)}
+.card-year{color:rgba(234,240,255,0.3)}
+.empty-state{border-color:var(--glass-border);color:rgba(234,240,255,0.55)}
+.loading-spinner{color:rgba(234,240,255,0.45);font-family:var(--mono)}
+
+/* =========================================================================
+   SCENE 7 — COMMUNICATION PORTAL (CONTACT)
+   ========================================================================= */
+.sec-light{background:none;padding:150px 5% 130px}
+.contact-sub{color:rgba(234,240,255,0.58)}
+.contact-item{color:rgba(234,240,255,0.78)}
+.contact-item a:hover{color:var(--emerald-light)}
+.c-icon{background:var(--glass);border-color:var(--glass-border)}
+.cta-box{position:relative;background:var(--glass);border:1px solid var(--glass-border);overflow:hidden;
+  backdrop-filter:blur(18px)}
+.cta-box::before{content:"";position:absolute;left:50%;top:50%;width:520px;height:520px;
+  margin:-260px 0 0 -260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,224,166,0.16) 0%,rgba(47,111,237,0.08) 40%,transparent 70%);
+  animation:portal-pulse 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes portal-pulse{0%,100%{opacity:0.55;transform:scale(0.92)}50%{opacity:1;transform:scale(1.06)}}
+.cta-box h3,.cta-box p,.cta-box .cta-meta,.cta-box .btn-gold{position:relative;z-index:1}
+.cta-box p{color:rgba(234,240,255,0.6)}
+.cta-meta{font-family:var(--mono);color:rgba(234,240,255,0.3)}
+#whatsapp-portal-btn{position:relative}
+#whatsapp-portal-btn::after{content:"";position:absolute;inset:-6px;border-radius:100px;
+  border:1.5px solid rgba(34,224,166,0.5);opacity:0;transition:opacity 0.3s ease}
+#whatsapp-portal-btn:hover::after{opacity:1;animation:portal-ring 1.3s ease-out infinite}
+@keyframes portal-ring{0%{transform:scale(1);opacity:0.9}100%{transform:scale(1.5);opacity:0}}
+
+/* =========================================================================
+   SCENE 8 — DIGITAL HORIZON (FOOTER / ENDING)
+   ========================================================================= */
+footer{background:linear-gradient(180deg,transparent,rgba(1,2,5,0.9) 40%,#010204);padding:90px 5% 30px}
+.footer-brand{font-family:var(--display)}
+.footer-desc{color:rgba(234,240,255,0.42)}
+.footer-heading{color:rgba(234,240,255,0.7);font-family:var(--mono);font-size:0.68rem}
+.footer-links a{color:rgba(234,240,255,0.5)}
+.footer-links a:hover{color:var(--emerald-light)}
+.footer-bottom{color:rgba(234,240,255,0.28);border-top-color:rgba(120,160,255,0.12);font-family:var(--mono)}
+
+/* reveal-on-scroll helper (progressive enhancement, JS toggles .in) */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media(max-width:1024px){
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  #hero{padding-top:110px}
+  .radar-ring,.radar-sweep{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .photo-frame::before,.photo-frame::after,.radar-sweep,.cta-box::before,#whatsapp-portal-btn:hover::after{animation:none!important}
+  .reveal{transition:opacity 0.3s ease}
+}
+</style>
 </head>
 <body>
+
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div id="grain"></div>
+<div id="vignette"></div>
+
+<!-- ===================== SCENE 1 — DIGITAL AWAKENING (INTRO) ===================== -->
+<div id="intro-loader" role="dialog" aria-label="Loading Almighty Web Solutions">
+  <div class="intro-particles" id="intro-particles"></div>
+  <div class="intro-content">
+    <div class="intro-mark" id="intro-mark">SIGNAL DETECTED · INITIALIZING</div>
+    <h1 class="intro-title" id="intro-title" aria-label="Almighty Web Solutions">
+      <span id="intro-title-chars"></span>
+    </h1>
+    <div class="intro-sub" id="intro-sub">ENTERING THE DIGITAL WORLD</div>
+    <div class="intro-bar"><div class="intro-bar-fill" id="intro-bar-fill"></div></div>
+    <button class="intro-skip" id="intro-skip">Skip Intro →</button>
+  </div>
+</div>
+
 <nav id="site-nav">
-  <div class="nav-logo">Almighty <span>Web</span> Solutions</div>
+  <div class="nav-logo">Almighty <span>Web</span></div>
   <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
     <li><a href="#works">Works</a></li>
     <li><a href="#contact">Contact</a></li>
     <li class="nav-admin-mobile"><a href="admin.html">⚙ Admin</a></li>
@@ -22,85 +275,896 @@
   </button>
 </nav>
 
-<section id="hero">
-  <div class="hero-dots"></div>
-  <div class="hero-accent"></div>
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-badge">Available for Projects · Tuticorin, Tamil Nadu</div>
-      <h1>Crafting <strong>digital presence</strong><br>for local businesses</h1>
-      <p class="hero-sub">Web design &amp; development studio helping seafood exporters, event halls, clinics, travel agencies, and photographers across Thoothukudi grow online.</p>
-      <div class="hero-cta">
-        <a href="#works" class="btn-gold">View My Work</a>
-        <a href="https://wa.me/916374399323" target="_blank" class="btn-ghost">💬 WhatsApp</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Projects</div></div>
-        <div class="stat"><div class="stat-num" id="stat-done">—</div><div class="stat-label">Completed</div></div>
-        <div class="stat"><div class="stat-num">MSME</div><div class="stat-label">Registered</div></div>
-      </div>
-    </div>
-    <div class="photo-card" id="about">
-      <div class="photo-frame">
-        <img src="images/james.jpg" alt="James — Almighty Web Solutions"/>
-      </div>
-      <div class="photo-name">James</div>
-      <div class="photo-role">Web Designer &amp; Developer</div>
-      <div class="photo-tags">
-        <span class="photo-tag">HTML/CSS</span><span class="photo-tag">Python</span>
-        <span class="photo-tag">Flask</span><span class="photo-tag">React</span>
-        <span class="photo-tag">WhatsApp CTA</span><span class="photo-tag">IoT</span>
-      </div>
-      <div class="msme-badge">UDYAM-TN-26-0096414</div>
-    </div>
-  </div>
-</section>
+<main id="world">
 
-<section class="sec-gray" id="works">
-  <div class="sec-inner">
-    <span class="sec-eyebrow">Portfolio</span>
-    <h2 class="sec-title">Projects that <em>speak</em> results</h2>
-    <div class="filter-bar" id="filter-bar">
-      <button class="filter-btn active" data-cat="all">All</button>
-    </div>
-    <div class="status-filter-bar">
-      <span class="sf-label">Status:</span>
-      <button class="sf-btn active" data-status="all">All</button>
-      <button class="sf-btn" data-status="done">✅ Done</button>
-      <button class="sf-btn" data-status="ongoing">🔄 Ongoing</button>
-      <button class="sf-btn" data-status="delivered">📦 Delivered</button>
-      <button class="sf-btn" data-status="sale">🏷 For Sale</button>
-    </div>
-    <div id="projects-grid"><div class="loading-spinner"></div></div>
-  </div>
-</section>
-
-<section class="sec-light" id="contact">
-  <div class="sec-inner">
-    <div class="contact-grid">
-      <div>
-        <span class="sec-eyebrow">Get In Touch</span>
-        <h2 class="contact-title">Let's build something <em>great</em></h2>
-        <p class="contact-sub">Have a business that needs an online presence? I work with local businesses across Tuticorin to create websites that convert visitors into customers.</p>
-        <div class="contact-items">
-          <div class="contact-item"><div class="c-icon">📞</div><a href="tel:+916374399323">+91 6374399323</a></div>
-          <div class="contact-item"><div class="c-icon">✉</div><a href="mailto:almightywebsolutions@gmail.com">almightywebsolutions@gmail.com</a></div>
-          <div class="contact-item"><div class="c-icon">📍</div><span>Udangudi, Tuticorin – 638702, Tamil Nadu</span></div>
+  <!-- ===================== SCENE 2 + 3 — DIGITAL CITY + CREATOR HOLOGRAM ===================== -->
+  <section id="hero">
+    <span class="scene-tag">// SCENE 02 — DIGITAL CITY · SCENE 03 — CREATOR UPLINK</span>
+    <div class="hero-inner">
+      <div class="hero-left reveal" id="hero-left">
+        <div class="hero-badge">Available for Projects · Tuticorin, Tamil Nadu</div>
+        <h1>Crafting <strong>digital presence</strong><br>for local businesses</h1>
+        <p class="hero-sub">Web design &amp; development studio helping seafood exporters, event halls, clinics, travel agencies, and photographers across Thoothukudi grow online.</p>
+        <div class="hero-cta">
+          <a href="#works" class="btn-gold">View My Work</a>
+          <a href="https://wa.me/916374399323" target="_blank" class="btn-ghost">💬 WhatsApp</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Projects</div></div>
+          <div class="stat"><div class="stat-num" id="stat-done">—</div><div class="stat-label">Completed</div></div>
+          <div class="stat"><div class="stat-num">MSME</div><div class="stat-label">Registered</div></div>
         </div>
       </div>
-      <div class="cta-box">
-        <h3>Ready to go online?</h3>
-        <p>Send a WhatsApp message and let's discuss your project. Quick response guaranteed.</p>
-        <a href="https://wa.me/916374399323?text=Hi%20James!%20I%20need%20a%20website%20for%20my%20business." target="_blank" class="btn-gold" style="display:inline-block;text-decoration:none">💬 Chat on WhatsApp</a>
-        <div class="cta-meta">UDYAM-TN-26-0096414 · NIC 62012 · MSME Registered</div>
+      <div class="photo-card reveal" id="about">
+        <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+        <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+        <div class="photo-frame">
+          <img src="images/james.jpg" alt="James — Almighty Web Solutions" loading="eager"/>
+        </div>
+        <div class="photo-name">James</div>
+        <div class="photo-role">Web Designer &amp; Developer</div>
+        <div class="photo-tags">
+          <span class="photo-tag">HTML/CSS</span><span class="photo-tag">Python</span>
+          <span class="photo-tag">Flask</span><span class="photo-tag">React</span>
+          <span class="photo-tag">WhatsApp CTA</span><span class="photo-tag">IoT</span>
+        </div>
+        <div class="msme-badge">UDYAM-TN-26-0096414</div>
       </div>
     </div>
+  </section>
+
+  <!-- ===================== SCENE 4 — TECHNOLOGY LAB ===================== -->
+  <section class="sec-services" id="services">
+    <span class="scene-tag">// SCENE 04 — TECHNOLOGY LAB</span>
+    <div class="sec-inner">
+      <span class="hud-eyebrow reveal">What I Build</span>
+      <h2 class="sec-title reveal">Solutions tailored to <em>your business</em></h2>
+      <div class="services-grid">
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">🌐</div>
+          <h3>Custom Websites</h3>
+          <p>Responsive, fast-loading sites built to fit your niche — studios, event halls, exporters, clinics.</p>
+        </div>
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">🗂</div>
+          <h3>Booking &amp; Admin Systems</h3>
+          <p>Flask + Supabase backends with secure admin panels so you manage your own content, no code needed.</p>
+        </div>
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">📡</div>
+          <h3>IoT &amp; Farm Dashboards</h3>
+          <p>Sensor-driven dashboards for smart feeders and farm monitoring — real hardware, real data.</p>
+        </div>
+        <div class="service-card reveal" data-tilt>
+          <div class="service-icon">✈️</div>
+          <h3>Travel &amp; Photography Apps</h3>
+          <p>Booking flows and gallery apps with face recognition, built for photographers and travel agencies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 6 — COMMAND CENTER ===================== -->
+  <section class="stats-strip" id="command-center">
+    <span class="scene-tag">// SCENE 06 — COMMAND CENTER</span>
+    <div class="radar-ring"></div><div class="radar-ring r2"></div><div class="radar-sweep"></div>
+    <div class="sec-inner stats-inner">
+      <div class="stat-block reveal"><div class="stat-block-num" id="counter-total">0</div><div class="stat-block-label">Total Projects</div></div>
+      <div class="stat-block reveal"><div class="stat-block-num" id="counter-done">0</div><div class="stat-block-label">Completed &amp; Delivered</div></div>
+      <div class="stat-block reveal"><div class="stat-block-num" id="counter-ongoing">0</div><div class="stat-block-label">Ongoing</div></div>
+      <div class="stat-block reveal"><div class="stat-block-num">MSME</div><div class="stat-block-label">Registered Studio</div></div>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 5 — PROJECT UNIVERSE ===================== -->
+  <section class="sec-gray" id="works">
+    <span class="scene-tag">// SCENE 05 — PROJECT UNIVERSE</span>
+    <div class="sec-inner">
+      <span class="hud-eyebrow reveal">Portfolio</span>
+      <h2 class="sec-title reveal">Projects that <em>speak</em> results</h2>
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-btn active" data-cat="all">All</button>
+      </div>
+      <div class="status-filter-bar">
+        <span class="sf-label">Status:</span>
+        <button class="sf-btn active" data-status="all">All</button>
+        <button class="sf-btn" data-status="done">✅ Done</button>
+        <button class="sf-btn" data-status="ongoing">🔄 Ongoing</button>
+        <button class="sf-btn" data-status="delivered">📦 Delivered</button>
+        <button class="sf-btn" data-status="sale">🏷 For Sale</button>
+      </div>
+      <div id="projects-grid"><div class="loading-spinner"></div></div>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 7 — COMMUNICATION PORTAL ===================== -->
+  <section class="sec-light" id="contact">
+    <span class="scene-tag">// SCENE 07 — COMMUNICATION PORTAL</span>
+    <div class="sec-inner">
+      <div class="contact-grid">
+        <div class="reveal">
+          <span class="hud-eyebrow">Get In Touch</span>
+          <h2 class="contact-title">Let's build something <em>great</em></h2>
+          <p class="contact-sub">Have a business that needs an online presence? I work with local businesses across Tuticorin to create websites that convert visitors into customers.</p>
+          <div class="contact-items">
+            <div class="contact-item"><div class="c-icon">📞</div><a href="tel:+916374399323">+91 6374399323</a></div>
+            <div class="contact-item"><div class="c-icon">✉</div><a href="mailto:almightywebsolutions@gmail.com">almightywebsolutions@gmail.com</a></div>
+            <div class="contact-item"><div class="c-icon">📍</div><span>Udangudi, Tuticorin – 638702, Tamil Nadu</span></div>
+          </div>
+        </div>
+        <div class="cta-box reveal">
+          <h3>Ready to go online?</h3>
+          <p>Send a WhatsApp message and let's discuss your project. Quick response guaranteed.</p>
+          <a href="https://wa.me/916374399323?text=Hi%20James!%20I%20need%20a%20website%20for%20my%20business." target="_blank" id="whatsapp-portal-btn" class="btn-gold" style="display:inline-block;text-decoration:none">💬 Chat on WhatsApp</a>
+          <div class="cta-meta">UDYAM-TN-26-0096414 · NIC 62012 · MSME Registered</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== SCENE 8 — DIGITAL HORIZON ===================== -->
+<footer>
+  <span class="scene-tag" style="position:static;display:block;margin-bottom:2rem">// SCENE 08 — DIGITAL HORIZON</span>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Almighty <span>Web</span> Solutions</div>
+      <p class="footer-desc">Web design &amp; development studio in Thoothukudi, Tamil Nadu — building custom sites, booking systems, and dashboards for local businesses.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#works">Works</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Get In Touch</div>
+      <ul class="footer-links">
+        <li><a href="tel:+916374399323">+91 6374399323</a></li>
+        <li><a href="mailto:almightywebsolutions@gmail.com">almightywebsolutions@gmail.com</a></li>
+        <li><a href="https://wa.me/916374399323" target="_blank">WhatsApp</a></li>
+      </ul>
+    </div>
   </div>
-</section>
+  <div class="footer-bottom">
+    <span>© 2026 Almighty Web Solutions. All rights reserved.</span>
+    <span>UDYAM-TN-26-0096414 · MSME Registered</span>
+  </div>
+</footer>
 
 <div class="toast" id="toast"></div>
-<script src="js/config.js"></script>
-<script src="js/nav.js"></script>
-<script src="js/portfolio.js"></script>
+
+<!-- ===================== CDN LIBRARIES ===================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+/* =========================================================================
+   ALMIGHTY WEB SOLUTIONS — DIGITAL WORLD
+   Single-file app: config/API + portfolio logic + nav behaviour + the
+   Three.js/GSAP cinematic layer. No build step, CDN only.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   0. SHARED CONFIG (ported from js/config.js + js/portfolio.js)
+   --------------------------------------------------------------------- */
+const API_BASE = "https://almighty-portfolio.onrender.com";
+const TOKEN_KEY = "aws_admin_token";
+function getToken(){ try{ return localStorage.getItem(TOKEN_KEY); }catch(e){ return null; } }
+async function apiFetch(path, options = {}) {
+  const token = getToken();
+  const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+  if (token) headers["X-Auth-Token"] = token;
+  const res = await fetch(API_BASE + path, { ...options, headers });
+  return res;
+}
+function showToast(msg, dur = 2600) {
+  const t = document.getElementById("toast");
+  if (!t) return;
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), dur);
+}
+const STATUS_MAP = {
+  done:      { label:"Done",      cls:"st-done"      },
+  ongoing:   { label:"Ongoing",   cls:"st-ongoing"   },
+  delivered: { label:"Delivered", cls:"st-delivered" },
+  sale:      { label:"For Sale",  cls:"st-sale"      },
+};
+
+const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hasGSAP = typeof gsap !== "undefined";
+if (hasGSAP && typeof ScrollTrigger !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+/* ---------------------------------------------------------------------
+   1. NAV BEHAVIOUR (ported from js/nav.js)
+   --------------------------------------------------------------------- */
+(function () {
+  const nav = document.getElementById("site-nav");
+  const toggle = document.getElementById("nav-toggle");
+  const links = document.getElementById("nav-links");
+  if (!nav) return;
+
+  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 12);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  if (toggle && links) {
+    const closeMenu = () => {
+      toggle.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      links.classList.remove("open");
+    };
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      links.classList.toggle("open", isOpen);
+    });
+    links.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  }
+})();
+
+/* ---------------------------------------------------------------------
+   2. PORTFOLIO / STATS LOGIC (ported from js/portfolio.js, with a
+      cinematic "dissolve into particles" transition for filtering)
+   --------------------------------------------------------------------- */
+let allProjects = [];
+let activeCategory = "all";
+let activeStatus = "all";
+let heroStatsData = null, commandStatsAnimated = false;
+
+async function loadStats() {
+  try {
+    const res = await apiFetch("/api/stats");
+    if (!res.ok) return;
+    const data = await res.json();
+    heroStatsData = data;
+    animateHeroStats();
+    buildCategoryFilter(data.categories || []);
+    if (commandStatsAnimated) animateCommandStats();
+  } catch (e) { /* keep UI graceful if API is unreachable */ }
+}
+
+function animateHeroStats(){
+  if (!heroStatsData) return;
+  animCount(document.getElementById("stat-total"), heroStatsData.total || 0);
+  animCount(document.getElementById("stat-done"), (heroStatsData.done||0) + (heroStatsData.delivered||0));
+}
+function animateCommandStats(){
+  if (!heroStatsData) return;
+  animCount(document.getElementById("counter-total"), heroStatsData.total || 0);
+  animCount(document.getElementById("counter-done"), (heroStatsData.done||0) + (heroStatsData.delivered||0));
+  animCount(document.getElementById("counter-ongoing"), heroStatsData.ongoing || 0);
+}
+
+async function loadProjects() {
+  const grid = document.getElementById("projects-grid");
+  grid.innerHTML = '<div class="loading-spinner">Loading projects…</div>';
+  try {
+    const res = await apiFetch("/api/projects");
+    if (!res.ok) throw new Error("bad response");
+    allProjects = await res.json();
+    renderGrid();
+  } catch (e) {
+    grid.innerHTML = '<div class="empty-state">Could not load projects. Please try again later.</div>';
+  }
+}
+
+function buildCategoryFilter(cats) {
+  const bar = document.getElementById("filter-bar");
+  const all = ["all", ...cats];
+  bar.innerHTML = all.map(c =>
+    `<button class="filter-btn${c === activeCategory ? " active" : ""}" data-cat="${c}" onclick="setCategory('${c}',this)">
+      ${c === "all" ? "All" : c}
+    </button>`
+  ).join("");
+}
+
+function setCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderGrid();
+}
+function setStatus(status, btn) {
+  activeStatus = status;
+  document.querySelectorAll(".sf-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderGrid();
+}
+
+function projectCardHTML(p) {
+  const st = STATUS_MAP[p.status] || STATUS_MAP.done;
+  const tags = Array.isArray(p.tags) ? p.tags : [];
+  return `<div class="project-card">
+    ${p.img_url
+      ? `<img class="card-thumb" src="${p.img_url}" alt="${p.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"/><div class="card-thumb-ph" style="display:none">${p.emoji || "🌐"}</div>`
+      : `<div class="card-thumb-ph">${p.emoji || "🌐"}</div>`}
+    <div class="card-body">
+      <div class="card-top">
+        <span class="card-cat">${p.category}</span>
+        <span class="card-status ${st.cls}">${st.label}</span>
+      </div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.description}</div>
+      <div class="card-tags">${tags.map(t => `<span class="card-tag">${t}</span>`).join("")}</div>
+      <div class="card-footer">
+        ${p.url ? `<a href="${p.url}" target="_blank" class="card-link">View Live →</a>`
+                : `<span style="font-size:0.8rem;color:rgba(234,240,255,0.4)">In Progress</span>`}
+        <span class="card-year">${p.year || ""}</span>
+      </div>
+    </div>`;
+}
+
+function renderGrid() {
+  const grid = document.getElementById("projects-grid");
+  const oldCards = Array.from(grid.querySelectorAll(".project-card"));
+
+  const mount = () => {
+    let list = allProjects;
+    if (activeCategory !== "all") list = list.filter(p => p.category === activeCategory);
+    if (activeStatus !== "all") list = list.filter(p => p.status === activeStatus);
+
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty-state">No projects found for this filter.</div>';
+      return;
+    }
+    grid.innerHTML = list.map(projectCardHTML).join("");
+
+    const newCards = grid.querySelectorAll(".project-card");
+    if (hasGSAP && !prefersReducedMotion) {
+      gsap.from(newCards, { opacity: 0, y: 26, scale: 0.9, filter: "blur(10px)", duration: 0.55, stagger: 0.05, ease: "power2.out" });
+    }
+  };
+
+  if (oldCards.length && hasGSAP && !prefersReducedMotion) {
+    // "dissolve into particles" exit transition before re-materializing
+    gsap.to(oldCards, {
+      opacity: 0, scale: 0.82, y: -14, filter: "blur(8px)",
+      duration: 0.32, stagger: 0.025, ease: "power2.in",
+      onComplete: mount
+    });
+  } else {
+    mount();
+  }
+}
+
+function animCount(el, n) {
+  if (!el) return;
+  n = Number(n) || 0;
+  let c = 0;
+  const step = Math.max(1, Math.ceil(n / 30));
+  const t = setInterval(() => {
+    c = Math.min(c + step, n);
+    el.textContent = c;
+    if (c >= n) clearInterval(t);
+  }, 32);
+}
+
+document.querySelectorAll(".sf-btn").forEach(btn => {
+  btn.addEventListener("click", () => setStatus(btn.dataset.status, btn));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadStats();
+  loadProjects();
+});
+
+/* Command Center counters animate specifically when the player scrolls
+   into that scene, per the brief. */
+if (hasGSAP && typeof ScrollTrigger !== "undefined") {
+  ScrollTrigger.create({
+    trigger: "#command-center",
+    start: "top 82%",
+    once: true,
+    onEnter: () => { commandStatsAnimated = true; animateCommandStats(); }
+  });
+} else {
+  commandStatsAnimated = true;
+}
+
+/* Generic scroll-reveal for panels (progressive enhancement) */
+(function revealOnScroll(){
+  const items = document.querySelectorAll(".reveal");
+  if (!items.length) return;
+  if (!("IntersectionObserver" in window)) { items.forEach(el => el.classList.add("in")); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); } });
+  }, { threshold: 0.15 });
+  items.forEach(el => io.observe(el));
+})();
+
+/* Subtle 3D tilt on service ("tech lab") cards */
+(function tiltCards(){
+  if (prefersReducedMotion) return;
+  document.querySelectorAll("[data-tilt]").forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(700px) rotateX(${(-py*7).toFixed(2)}deg) rotateY(${(px*9).toFixed(2)}deg) translateY(-4px)`;
+    });
+    card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+  });
+})();
+
+/* =========================================================================
+   3. THE DIGITAL WORLD — Three.js persistent background + GSAP camera path
+   ========================================================================= */
+(function DigitalWorld(){
+  const canvas = document.getElementById("bg-canvas");
+  if (!canvas || typeof THREE === "undefined") {
+    if (typeof window.finishIntro === "function" && window.finishIntro.__real) window.finishIntro(true);
+    else window.__introSkipPending = true;
+    return;
+  }
+
+  let renderer, scene, camera;
+  let particles, particleVel;
+  let cityGroup, ringGroup, labGroup, universeGroup, commandGroup, portalGroup, horizonPlane;
+  let lightA, lightB, lightC;
+  let width = window.innerWidth, height = window.innerHeight;
+  const isMobile = width < 760;
+  const isTablet = width >= 760 && width < 1100;
+  const quality = isMobile ? "low" : isTablet ? "mid" : "high";
+
+  const COUNTS = {
+    low:  { particles: 500,  buildings: 16, lab: 10, universe: 14 },
+    mid:  { particles: 1000, buildings: 26, lab: 16, universe: 20 },
+    high: { particles: 1700, buildings: 40, lab: 22, universe: 28 },
+  }[quality];
+
+  let running = true;
+  let started = false;
+
+  function initThree(){
+    scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030508, 0.011);
+
+    camera = new THREE.PerspectiveCamera(62, width / height, 0.1, 900);
+    camera.position.set(0, 4, 34);
+
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+    renderer.setSize(width, height);
+    renderer.setClearColor(0x030508, 1);
+
+    // Lights
+    scene.add(new THREE.AmbientLight(0x1b2947, 1.1));
+    lightA = new THREE.PointLight(0x2f6fed, 3.2, 140);
+    lightA.position.set(20, 18, 10);
+    scene.add(lightA);
+    lightB = new THREE.PointLight(0x22e0a6, 3.2, 140);
+    lightB.position.set(-20, 12, -40);
+    scene.add(lightB);
+    lightC = new THREE.PointLight(0xd4a017, 2.2, 160);
+    lightC.position.set(0, 14, -210);
+    scene.add(lightC);
+
+    buildParticles();
+    buildNetwork();
+    buildCity();
+    buildProfileRings();
+    buildLab();
+    buildUniverse();
+    buildCommand();
+    buildPortal();
+    buildHorizon();
+
+    window.addEventListener("resize", onResize, { passive: true });
+  }
+
+  function onResize(){
+    width = window.innerWidth; height = window.innerHeight;
+    if (!renderer || !camera) return;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  }
+
+  /* ---- background starfield / drifting data particles ---- */
+  function buildParticles(){
+    const n = COUNTS.particles;
+    const positions = new Float32Array(n * 3);
+    const colors = new Float32Array(n * 3);
+    particleVel = new Float32Array(n * 3);
+    const cA = new THREE.Color(0x5b8df7), cB = new THREE.Color(0x22e0a6), cC = new THREE.Color(0xd4a017);
+    for (let i = 0; i < n; i++){
+      const i3 = i * 3;
+      positions[i3]   = (Math.random() - 0.5) * 160;
+      positions[i3+1] = (Math.random()) * 60 - 8;
+      positions[i3+2] = 40 - Math.random() * 320;
+      const c = Math.random() < 0.5 ? cA : (Math.random() < 0.5 ? cB : cC);
+      colors[i3] = c.r; colors[i3+1] = c.g; colors[i3+2] = c.b;
+      particleVel[i3] = (Math.random()-0.5) * 0.012;
+      particleVel[i3+1] = Math.random() * 0.006 + 0.002;
+      particleVel[i3+2] = (Math.random()-0.5) * 0.01;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    const mat = new THREE.PointsMaterial({ size: isMobile ? 0.55 : 0.7, vertexColors: true, transparent: true, opacity: 0.85, depthWrite: false });
+    particles = new THREE.Points(geo, mat);
+    scene.add(particles);
+  }
+
+  /* ---- Scene 1 echo: small connected network hovering near the start ---- */
+  let networkLines;
+  function buildNetwork(){
+    const nodeCount = isMobile ? 16 : 26;
+    const nodes = [];
+    for (let i = 0; i < nodeCount; i++){
+      nodes.push(new THREE.Vector3((Math.random()-0.5)*30, Math.random()*14 - 2, 10 - Math.random()*30));
+    }
+    const positions = [];
+    for (let i = 0; i < nodes.length; i++){
+      for (let j = i+1; j < nodes.length; j++){
+        if (nodes[i].distanceTo(nodes[j]) < 11 && Math.random() < 0.35){
+          positions.push(nodes[i].x, nodes[i].y, nodes[i].z, nodes[j].x, nodes[j].y, nodes[j].z);
+        }
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(positions), 3));
+    const mat = new THREE.LineBasicMaterial({ color: 0x5b8df7, transparent: true, opacity: 0.35 });
+    networkLines = new THREE.LineSegments(geo, mat);
+    scene.add(networkLines);
+
+    const nodeGeo = new THREE.SphereGeometry(0.18, 8, 8);
+    const nodeMat = new THREE.MeshBasicMaterial({ color: 0x22e0a6 });
+    const nodeGroup = new THREE.Group();
+    nodes.forEach(p => { const m = new THREE.Mesh(nodeGeo, nodeMat); m.position.copy(p); nodeGroup.add(m); });
+    scene.add(nodeGroup);
+    networkLines.userData.nodeGroup = nodeGroup;
+  }
+
+  /* ---- Scene 2: procedural digital city the camera flies through ---- */
+  function buildCity(){
+    cityGroup = new THREE.Group();
+    const n = COUNTS.buildings;
+    const edgeMat = new THREE.LineBasicMaterial({ color: 0x5b8df7, transparent: true, opacity: 0.55 });
+    for (let i = 0; i < n; i++){
+      const h = 4 + Math.random() * 16;
+      const w = 1.4 + Math.random() * 2.2;
+      const side = i % 2 === 0 ? -1 : 1;
+      const x = side * (9 + Math.random() * 20);
+      const z = -2 - Math.random() * 55;
+      const geo = new THREE.BoxGeometry(w, h, w);
+      const colorPick = Math.random() < 0.5 ? 0x0d1830 : 0x0a1424;
+      const mat = new THREE.MeshStandardMaterial({ color: colorPick, emissive: 0x123055, emissiveIntensity: 0.35, roughness: 0.6, metalness: 0.3 });
+      const box = new THREE.Mesh(geo, mat);
+      box.position.set(x, h/2 - 6, z);
+      cityGroup.add(box);
+      const edges = new THREE.EdgesGeometry(geo);
+      const line = new THREE.LineSegments(edges, edgeMat);
+      line.position.copy(box.position);
+      cityGroup.add(line);
+      if (Math.random() < 0.7){
+        const wGeo = new THREE.PlaneGeometry(0.5, 0.5);
+        const wMat = new THREE.MeshBasicMaterial({ color: Math.random() < 0.5 ? 0x22e0a6 : 0xd4a017, transparent:true, opacity:0.85 });
+        const win = new THREE.Mesh(wGeo, wMat);
+        win.position.set(x + (side * (w/2 + 0.01)), h/2 - 6 + (Math.random()-0.3)*h*0.4, z);
+        win.rotation.y = side > 0 ? -Math.PI/2 : Math.PI/2;
+        win.userData.flicker = Math.random() * Math.PI * 2;
+        cityGroup.add(win);
+      }
+    }
+    scene.add(cityGroup);
+  }
+
+  /* ---- Scene 3: holographic rings around the creator profile zone ---- */
+  let ringMeshes = [];
+  function buildProfileRings(){
+    ringGroup = new THREE.Group();
+    ringGroup.position.set(15, 3, -22);
+    const colors = [0x22e0a6, 0x5b8df7, 0xd4a017];
+    for (let i = 0; i < 3; i++){
+      const geo = new THREE.TorusGeometry(3 + i * 1.1, 0.05, 8, 64);
+      const mat = new THREE.MeshBasicMaterial({ color: colors[i], transparent: true, opacity: 0.5 });
+      const ring = new THREE.Mesh(geo, mat);
+      ring.rotation.x = Math.PI / 2 + i * 0.3;
+      ring.rotation.y = i * 0.4;
+      ringGroup.add(ring);
+      ringMeshes.push(ring);
+    }
+    scene.add(ringGroup);
+  }
+
+  /* ---- Scene 4: floating tech-lab shapes ---- */
+  let labMeshes = [];
+  function buildLab(){
+    labGroup = new THREE.Group();
+    const geos = [
+      new THREE.IcosahedronGeometry(1, 0),
+      new THREE.OctahedronGeometry(1, 0),
+      new THREE.BoxGeometry(1.3, 1.3, 1.3),
+      new THREE.TetrahedronGeometry(1.1, 0),
+    ];
+    const colors = [0x22e0a6, 0x5b8df7, 0xd4a017, 0x2f6fed];
+    for (let i = 0; i < COUNTS.lab; i++){
+      const geo = geos[i % geos.length];
+      const mat = new THREE.MeshStandardMaterial({ color: colors[i % colors.length], emissive: colors[i % colors.length], emissiveIntensity: 0.5, wireframe: Math.random() < 0.4, roughness: 0.4, metalness: 0.2 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set((Math.random()-0.5) * 34, Math.random() * 16 - 4, -68 - Math.random() * 34);
+      mesh.scale.setScalar(0.6 + Math.random() * 0.9);
+      mesh.userData.spin = (Math.random()-0.5) * 0.01;
+      mesh.userData.bobPhase = Math.random() * Math.PI * 2;
+      labGroup.add(mesh);
+      labMeshes.push(mesh);
+    }
+    scene.add(labGroup);
+  }
+
+  /* ---- Scene 5: glowing project markers scattered through the universe ---- */
+  let universeMeshes = [];
+  function buildUniverse(){
+    universeGroup = new THREE.Group();
+    const geo = new THREE.OctahedronGeometry(0.9, 0);
+    for (let i = 0; i < COUNTS.universe; i++){
+      const color = [0x22e0a6, 0x5b8df7, 0xd4a017][i % 3];
+      const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.75 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set((Math.random()-0.5) * 46, Math.random() * 20 - 6, -108 - Math.random() * 60);
+      mesh.userData.spin = (Math.random()-0.5) * 0.02;
+      universeGroup.add(mesh);
+      universeMeshes.push(mesh);
+    }
+    scene.add(universeGroup);
+  }
+
+  /* ---- Scene 6: command center radar rings ---- */
+  let commandRing;
+  function buildCommand(){
+    commandGroup = new THREE.Group();
+    commandGroup.position.set(0, 2, -152);
+    const geo = new THREE.TorusGeometry(9, 0.06, 8, 80);
+    const mat = new THREE.MeshBasicMaterial({ color: 0x2f6fed, transparent: true, opacity: 0.4 });
+    commandRing = new THREE.Mesh(geo, mat);
+    commandRing.rotation.x = Math.PI / 2;
+    commandGroup.add(commandRing);
+    const geo2 = new THREE.TorusGeometry(5.5, 0.05, 8, 64);
+    const ring2 = new THREE.Mesh(geo2, new THREE.MeshBasicMaterial({ color: 0x22e0a6, transparent:true, opacity:0.45 }));
+    ring2.rotation.x = Math.PI / 2;
+    commandGroup.add(ring2);
+    scene.add(commandGroup);
+  }
+
+  /* ---- Scene 7: the communication portal ---- */
+  let portalMesh, portalMat;
+  function buildPortal(){
+    portalGroup = new THREE.Group();
+    portalGroup.position.set(0, 3, -196);
+    const geo = new THREE.TorusGeometry(7, 0.9, 20, 64);
+    portalMat = new THREE.MeshStandardMaterial({ color: 0x0f6b4d, emissive: 0x22e0a6, emissiveIntensity: 1.1, roughness: 0.35, metalness: 0.5 });
+    portalMesh = new THREE.Mesh(geo, portalMat);
+    portalGroup.add(portalMesh);
+    scene.add(portalGroup);
+
+    // Interactive: hovering the real WhatsApp CTA pulses the 3D portal
+    const waBtn = document.getElementById("whatsapp-portal-btn");
+    if (waBtn && hasGSAP) {
+      waBtn.addEventListener("mouseenter", () => {
+        gsap.to(portalMesh.scale, { x: 1.28, y: 1.28, z: 1.28, duration: 0.6, ease: "power2.out" });
+        gsap.to(portalMat, { emissiveIntensity: 2.4, duration: 0.6 });
+      });
+      waBtn.addEventListener("mouseleave", () => {
+        gsap.to(portalMesh.scale, { x: 1, y: 1, z: 1, duration: 0.6, ease: "power2.out" });
+        gsap.to(portalMat, { emissiveIntensity: 1.1, duration: 0.6 });
+      });
+    }
+  }
+
+  /* ---- Scene 8: the digital horizon ending ---- */
+  function buildHorizon(){
+    const geo = new THREE.PlaneGeometry(400, 200, 24, 12);
+    const mat = new THREE.MeshBasicMaterial({ color: 0x0a1220, wireframe: true, transparent: true, opacity: 0.28 });
+    horizonPlane = new THREE.Mesh(geo, mat);
+    horizonPlane.rotation.x = -Math.PI / 2.4;
+    horizonPlane.position.set(0, -14, -250);
+    scene.add(horizonPlane);
+  }
+
+  /* ---------------- Camera path driven by whole-page scroll ---------------- */
+  const CAM_START_Z = 34, CAM_END_Z = -258;
+  let scrollProgress = 0;
+  let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
+
+  window.addEventListener("mousemove", (e) => {
+    targetMouseX = (e.clientX / window.innerWidth - 0.5);
+    targetMouseY = (e.clientY / window.innerHeight - 0.5);
+  }, { passive: true });
+
+  function setupScrollCamera(){
+    if (!(hasGSAP && typeof ScrollTrigger !== "undefined")) {
+      window.addEventListener("scroll", () => {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        scrollProgress = max > 0 ? window.scrollY / max : 0;
+      }, { passive: true });
+      return;
+    }
+    ScrollTrigger.create({
+      trigger: document.body,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => { scrollProgress = self.progress; }
+    });
+  }
+
+  const clock = new THREE.Clock();
+
+  function animate(){
+    if (!running) return;
+    requestAnimationFrame(animate);
+    clock.getDelta();
+    const t = clock.elapsedTime;
+
+    const weave = prefersReducedMotion ? 0 : 1;
+    const z = THREE.MathUtils.lerp(CAM_START_Z, CAM_END_Z, scrollProgress);
+    const weaveAmt = Math.sin(scrollProgress * Math.PI * 5) * 3.2 * weave;
+    const bobAmt = Math.cos(scrollProgress * Math.PI * 4) * 1.6 * weave;
+    mouseX += (targetMouseX - mouseX) * 0.04;
+    mouseY += (targetMouseY - mouseY) * 0.04;
+    const parX = prefersReducedMotion ? 0 : mouseX * 3.2;
+    const parY = prefersReducedMotion ? 0 : mouseY * 1.6;
+
+    camera.position.x += (weaveAmt + parX - camera.position.x) * 0.06;
+    camera.position.y += (5 + bobAmt - parY - camera.position.y) * 0.06;
+    camera.position.z += (z - camera.position.z) * 0.09;
+    camera.lookAt(camera.position.x - parX * 1.4, camera.position.y - parY * 0.6 + 1.5, camera.position.z - 40);
+
+    lightA.intensity = 3 + Math.sin(t * 0.8) * 0.6;
+    lightB.intensity = 3 + Math.cos(t * 0.7) * 0.6;
+    lightC.intensity = 2 + Math.sin(t * 0.5 + 1) * 0.5;
+    lightA.position.x = 20 + Math.sin(t * 0.15) * 6;
+    lightB.position.z = -40 + Math.cos(t * 0.12) * 10;
+
+    if (particles){
+      const pos = particles.geometry.attributes.position.array;
+      for (let i = 0; i < pos.length; i += 3){
+        pos[i]   += particleVel[i];
+        pos[i+1] += particleVel[i+1];
+        pos[i+2] += particleVel[i+2] + 0.01;
+        if (pos[i+2] > camera.position.z + 40) pos[i+2] = camera.position.z - 260;
+        if (pos[i+1] > 55) pos[i+1] = -8;
+      }
+      particles.geometry.attributes.position.needsUpdate = true;
+    }
+    if (networkLines) networkLines.material.opacity = 0.25 + Math.sin(t * 1.4) * 0.12;
+
+    ringMeshes.forEach((r, i) => { r.rotation.z += 0.002 + i * 0.0006; });
+    labMeshes.forEach((m) => {
+      m.rotation.x += m.userData.spin;
+      m.rotation.y += m.userData.spin * 1.4;
+      m.position.y += Math.sin(t * 0.6 + m.userData.bobPhase) * 0.003;
+    });
+    universeMeshes.forEach((m) => { m.rotation.y += m.userData.spin; m.rotation.x += m.userData.spin * 0.6; });
+    if (commandRing){ commandGroup.rotation.z += 0.0015; }
+    if (portalMesh){ portalMesh.rotation.z += 0.004; portalMesh.rotation.x = Math.sin(t*0.3)*0.15; }
+    if (cityGroup) cityGroup.children.forEach((c) => {
+      if (c.userData && c.userData.flicker !== undefined){
+        c.material.opacity = 0.55 + Math.sin(t * 3 + c.userData.flicker) * 0.35;
+      }
+    });
+    if (horizonPlane) horizonPlane.material.opacity = 0.28 - Math.min(scrollProgress, 1) * 0.15 + 0.15;
+
+    renderer.render(scene, camera);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    running = !document.hidden;
+    if (running) animate();
+  });
+
+  try {
+    initThree();
+    setupScrollCamera();
+    animate();
+    started = true;
+  } catch (err) {
+    console.warn("Digital world failed to initialize, falling back to static background.", err);
+    if (canvas) canvas.style.display = "none";
+  }
+  /* Only bail the visitor out of the intro early if the 3D world actually
+     failed to start — a successful start should let the Scene 1 timeline
+     in runIntro() play out normally instead of ending immediately.
+     NOTE: runIntro() (below) hasn't executed yet at this point in the
+     script, so window.finishIntro is still the placeholder — queue the
+     skip request and let runIntro() consume it once it's ready. */
+  if (!started) {
+    if (typeof window.finishIntro === "function" && window.finishIntro.__real) {
+      window.finishIntro(true);
+    } else {
+      window.__introSkipPending = true;
+    }
+  }
+})();
+
+/* =========================================================================
+   4. INTRO SEQUENCE — SCENE 1: DIGITAL AWAKENING
+   ========================================================================= */
+function finishIntro(){ /* placeholder, replaced by runIntro() below */ }
+
+(function runIntro(){
+  const overlay = document.getElementById("intro-loader");
+  const skipBtn = document.getElementById("intro-skip");
+  const titleWrap = document.getElementById("intro-title-chars");
+  const barFill = document.getElementById("intro-bar-fill");
+  const mark = document.getElementById("intro-mark");
+  const sub = document.getElementById("intro-sub");
+  const particleField = document.getElementById("intro-particles");
+
+  const word = "ALMIGHTY WEB SOLUTIONS";
+  titleWrap.innerHTML = word.split("").map(ch =>
+    `<span class="ch">${ch === " " ? "&nbsp;" : ch}</span>`
+  ).join("");
+  const chars = titleWrap.querySelectorAll(".ch");
+
+  const dotCount = prefersReducedMotion ? 0 : (window.innerWidth < 700 ? 26 : 46);
+  for (let i = 0; i < dotCount; i++){
+    const d = document.createElement("div");
+    d.className = "intro-dot";
+    d.style.left = Math.random() * 100 + "%";
+    d.style.top = Math.random() * 100 + "%";
+    particleField.appendChild(d);
+  }
+
+  let done = false;
+  window.finishIntro = function(skip){
+    if (done) return; done = true;
+    if (hasGSAP && !prefersReducedMotion) {
+      gsap.to(overlay, { opacity: 0, duration: skip ? 0.5 : 0.9, ease: "power2.inOut", onComplete: () => {
+        overlay.classList.add("hide");
+        animateHeroStats();
+      }});
+    } else {
+      overlay.classList.add("hide");
+      animateHeroStats();
+    }
+  };
+  window.finishIntro.__real = true;
+  finishIntro = window.finishIntro;
+
+  // Consume a skip request that arrived before this real implementation existed
+  // (e.g. the Three.js scene failed to initialize and asked for an instant skip).
+  if (window.__introSkipPending) {
+    delete window.__introSkipPending;
+    finishIntro(true);
+    return;
+  }
+
+  skipBtn.addEventListener("click", () => finishIntro(true));
+
+  if (prefersReducedMotion) {
+    chars.forEach(c => c.style.opacity = 1);
+    mark.style.opacity = 1; sub.style.opacity = 1; skipBtn.style.opacity = 1;
+    barFill.style.width = "100%";
+    setTimeout(() => finishIntro(false), 500);
+    return;
+  }
+
+  if (!hasGSAP) { setTimeout(() => finishIntro(false), 900); return; }
+
+  const dots = particleField.querySelectorAll(".intro-dot");
+  const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+  tl.to(dots, { opacity: 1, duration: 0.5, stagger: { each: 0.008, from: "random" } }, 0)
+    .to(dots, { left: "50%", top: "50%", duration: 1.1, stagger: { each: 0.006, from: "random" }, ease: "power3.inOut" }, 0.2)
+    .to(mark, { opacity: 1, duration: 0.4 }, 0.3)
+    .to(chars, { opacity: 1, y: 0, duration: 0.6, stagger: 0.035, ease: "back.out(1.6)" }, 0.9)
+    .to(sub, { opacity: 1, duration: 0.5 }, 1.6)
+    .to(barFill, { width: "100%", duration: 1.3, ease: "power1.inOut" }, 1.7)
+    .to(skipBtn, { opacity: 1, duration: 0.4 }, 0.6)
+    .to(dots, { opacity: 0, duration: 0.5 }, 2.9)
+    .call(() => finishIntro(false), null, 3.2);
+
+  // Safety net: never trap the user behind the intro
+  setTimeout(() => finishIntro(false), 6000);
+})();
+</script>
 </body>
 </html>
