@@ -40,7 +40,8 @@ body{color:#EAF0FF}
   box-shadow:inset 0 0 220px rgba(0,0,0,0.75)}
 
 /* ---------- everything else lives above the world ---------- */
-#site-nav,main#world,footer{position:relative;z-index:5}
+main#world,footer{position:relative;z-index:5}
+#site-nav{position:relative;z-index:50}
 
 /* ---------- glass panel utility ---------- */
 .glass-panel{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;
@@ -68,8 +69,9 @@ body{color:#EAF0FF}
 .intro-content{position:relative;text-align:center;padding:0 1.5rem}
 .intro-mark{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.4em;color:var(--cobalt-light);
   text-transform:uppercase;margin-bottom:1.4rem;opacity:0}
-.intro-title{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,5.4vw,3.2rem);
-  color:#fff;letter-spacing:0.02em;margin-bottom:0.6rem}
+.intro-title{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,7vw,3.2rem);
+  color:#fff;letter-spacing:0.02em;margin-bottom:0.6rem;line-height:1.15}
+.intro-title .word{display:inline-block;white-space:nowrap}
 .intro-title .ch{display:inline-block;opacity:0;transform:translateY(18px)}
 .intro-sub{font-family:var(--mono);font-size:0.78rem;color:rgba(234,240,255,0.5);letter-spacing:0.08em;
   margin-bottom:2.4rem;opacity:0}
@@ -171,14 +173,14 @@ h1{text-shadow:0 4px 40px rgba(47,111,237,0.25)}
 .sf-btn{border-color:var(--glass-border);color:rgba(234,240,255,0.6);font-family:var(--mono);font-size:0.7rem}
 .sf-btn.active,.sf-btn:hover{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
 #projects-grid{position:relative;z-index:2}
-.project-card{background:var(--glass);border:1px solid var(--glass-border);color:#EAF0FF;
+.project-card{background:rgba(16,26,46,0.86);border:1px solid var(--glass-border);color:#EAF0FF;
   box-shadow:0 16px 40px rgba(0,0,0,0.35)}
 .project-card::before{background:linear-gradient(90deg,var(--emerald-light),var(--cobalt-light))}
 .project-card:hover{border-color:rgba(34,224,166,0.4);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow-emerald)}
-.card-thumb-ph{background:linear-gradient(135deg,rgba(47,111,237,0.14),rgba(34,224,166,0.1))}
-.card-cat{color:rgba(234,240,255,0.4);font-family:var(--mono)}
+.card-thumb-ph{background:linear-gradient(135deg,rgba(47,111,237,0.28),rgba(34,224,166,0.2))}
+.card-cat{color:rgba(234,240,255,0.55);font-family:var(--mono)}
 .card-title{color:#fff}
-.card-desc{color:rgba(234,240,255,0.55)}
+.card-desc{color:rgba(234,240,255,0.72)}
 .card-tag{color:var(--emerald-light);background:rgba(34,224,166,0.08);border-color:rgba(34,224,166,0.24);font-family:var(--mono)}
 .card-footer{border-top-color:var(--glass-border)}
 .card-link{color:var(--cobalt-light)}
@@ -226,6 +228,63 @@ footer{background:linear-gradient(180deg,transparent,rgba(1,2,5,0.9) 40%,#010204
 .reveal.in{opacity:1;transform:translateY(0)}
 
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* =========================================================================
+   MICRO-INTERACTIONS — buttons, cards, words
+   ========================================================================= */
+/* ---- buttons: diagonal shine sweep + press feedback ---- */
+.btn-gold,.btn-ghost,.nav-admin-btn{position:relative;overflow:hidden;
+  transition:transform 0.25s cubic-bezier(.2,.8,.2,1),box-shadow 0.25s ease,background 0.25s ease}
+.btn-gold::after,.btn-ghost::after,.nav-admin-btn::after{content:"";position:absolute;top:0;left:-65%;
+  width:35%;height:100%;pointer-events:none;
+  background:linear-gradient(115deg,transparent,rgba(255,255,255,0.45),transparent);
+  transform:skewX(-18deg);transition:left 0.6s ease}
+.btn-gold:hover::after,.btn-ghost:hover::after,.nav-admin-btn:hover::after{left:130%}
+.btn-gold:active,.btn-ghost:active,.nav-admin-btn:active{transform:scale(0.96)}
+.btn-gold{animation:cta-breathe 3.4s ease-in-out infinite}
+@keyframes cta-breathe{0%,100%{box-shadow:0 6px 20px rgba(15,178,125,0.18)}50%{box-shadow:0 10px 30px rgba(15,178,125,0.4)}}
+#whatsapp-portal-btn{animation:cta-breathe 2.6s ease-in-out infinite}
+
+/* ---- filter / status pills: little pop when they become active ---- */
+.filter-btn,.sf-btn{transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease,color 0.2s ease,border-color 0.2s ease}
+.filter-btn:hover,.sf-btn:hover{transform:translateY(-2px)}
+.filter-btn.active,.sf-btn.active{animation:pill-pop 0.35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pill-pop{0%{transform:scale(0.88)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+
+/* ---- cards: lift + light-sweep on hover ---- */
+.project-card,.service-card{position:relative;isolation:isolate;
+  transition:transform 0.4s cubic-bezier(.2,.8,.2,1),box-shadow 0.4s ease,border-color 0.4s ease}
+.project-card:hover,.service-card:hover{transform:translateY(-8px)}
+.project-card::after,.service-card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  z-index:2;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,0.09) 48%,transparent 62%);
+  transform:translateX(-140%);transition:transform 0.8s ease}
+.project-card:hover::after,.service-card:hover::after{transform:translateX(140%)}
+.service-card::before{transition:transform 0.45s ease}
+.service-icon{display:inline-block;transition:transform 0.4s cubic-bezier(.3,1.4,.5,1)}
+.service-card:hover .service-icon{transform:scale(1.18) rotate(-6deg)}
+.card-thumb,.card-thumb-ph{transition:transform 0.5s ease}
+.project-card:hover .card-thumb,.project-card:hover .card-thumb-ph{transform:scale(1.05)}
+
+/* ---- words: animated gradient shimmer on key emphasized text ---- */
+h1 strong,.sec-title em,.contact-title em{
+  background:linear-gradient(120deg,var(--emerald-light),var(--cobalt-light),var(--gold),var(--emerald-light));
+  background-size:300% auto;-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  animation:text-shimmer 6s ease-in-out infinite}
+@keyframes text-shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* ---- nav links: subtle letter-spacing pulse + underline sweep on hover ---- */
+.nav-links a{transition:color 0.25s ease,letter-spacing 0.25s ease}
+.nav-links a:hover{letter-spacing:0.02em}
+
+@media(prefers-reduced-motion:reduce){
+  .btn-gold::after,.btn-ghost::after,.nav-admin-btn::after{display:none}
+  .btn-gold,#whatsapp-portal-btn{animation:none}
+  .project-card::after,.service-card::after{display:none}
+  .service-card:hover .service-icon{transform:none}
+  h1 strong,.sec-title em,.contact-title em{animation:none;background-position:0% 50%}
+  .filter-btn.active,.sf-btn.active{animation:none}
+}
 
 @media(max-width:1024px){
   .services-grid{grid-template-columns:repeat(2,1fr)}
@@ -580,7 +639,7 @@ function setStatus(status, btn) {
 function projectCardHTML(p) {
   const st = STATUS_MAP[p.status] || STATUS_MAP.done;
   const tags = Array.isArray(p.tags) ? p.tags : [];
-  return `<div class="project-card">
+  return `<div class="project-card" data-tilt>
     ${p.img_url
       ? `<img class="card-thumb" src="${p.img_url}" alt="${p.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"/><div class="card-thumb-ph" style="display:none">${p.emoji || "🌐"}</div>`
       : `<div class="card-thumb-ph">${p.emoji || "🌐"}</div>`}
@@ -611,6 +670,7 @@ function renderGrid() {
 
     if (!list.length) {
       grid.innerHTML = '<div class="empty-state">No projects found for this filter.</div>';
+      window.dispatchEvent(new Event("projects:rendered"));
       return;
     }
     grid.innerHTML = list.map(projectCardHTML).join("");
@@ -619,6 +679,8 @@ function renderGrid() {
     if (hasGSAP && !prefersReducedMotion) {
       gsap.from(newCards, { opacity: 0, y: 26, scale: 0.9, filter: "blur(10px)", duration: 0.55, stagger: 0.05, ease: "power2.out" });
     }
+    initTilt(grid);
+    window.dispatchEvent(new Event("projects:rendered"));
   };
 
   if (oldCards.length && hasGSAP && !prefersReducedMotion) {
@@ -678,10 +740,13 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
   items.forEach(el => io.observe(el));
 })();
 
-/* Subtle 3D tilt on service ("tech lab") cards */
-(function tiltCards(){
+/* Subtle 3D tilt on cards (tech lab services + project cards). Re-callable
+   since project cards are re-rendered dynamically after filtering/loading. */
+function initTilt(scope){
   if (prefersReducedMotion) return;
-  document.querySelectorAll("[data-tilt]").forEach(card => {
+  (scope || document).querySelectorAll("[data-tilt]").forEach(card => {
+    if (card.dataset.tiltBound) return;
+    card.dataset.tiltBound = "1";
     card.addEventListener("mousemove", (e) => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
@@ -690,7 +755,8 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
     });
     card.addEventListener("mouseleave", () => { card.style.transform = ""; });
   });
-})();
+}
+initTilt();
 
 /* =========================================================================
    3. THE DIGITAL WORLD — Three.js persistent background + GSAP camera path
@@ -908,7 +974,7 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
       const color = [0x22e0a6, 0x5b8df7, 0xd4a017][i % 3];
       const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.75 });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set((Math.random()-0.5) * 46, Math.random() * 20 - 6, -108 - Math.random() * 60);
+      mesh.position.set((Math.random()-0.5) * 46, Math.random() * 20 - 6, -122 - Math.random() * 55);
       mesh.userData.spin = (Math.random()-0.5) * 0.02;
       universeGroup.add(mesh);
       universeMeshes.push(mesh);
@@ -920,14 +986,14 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
   let commandRing;
   function buildCommand(){
     commandGroup = new THREE.Group();
-    commandGroup.position.set(0, 2, -152);
-    const geo = new THREE.TorusGeometry(9, 0.06, 8, 80);
-    const mat = new THREE.MeshBasicMaterial({ color: 0x2f6fed, transparent: true, opacity: 0.4 });
+    commandGroup.position.set(0, 2, -112);
+    const geo = new THREE.TorusGeometry(7, 0.045, 8, 80);
+    const mat = new THREE.MeshBasicMaterial({ color: 0x2f6fed, transparent: true, opacity: 0.32 });
     commandRing = new THREE.Mesh(geo, mat);
     commandRing.rotation.x = Math.PI / 2;
     commandGroup.add(commandRing);
-    const geo2 = new THREE.TorusGeometry(5.5, 0.05, 8, 64);
-    const ring2 = new THREE.Mesh(geo2, new THREE.MeshBasicMaterial({ color: 0x22e0a6, transparent:true, opacity:0.45 }));
+    const geo2 = new THREE.TorusGeometry(4.3, 0.04, 8, 64);
+    const ring2 = new THREE.Mesh(geo2, new THREE.MeshBasicMaterial({ color: 0x22e0a6, transparent:true, opacity:0.36 }));
     ring2.rotation.x = Math.PI / 2;
     commandGroup.add(ring2);
     scene.add(commandGroup);
@@ -968,9 +1034,24 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
     scene.add(horizonPlane);
   }
 
-  /* ---------------- Camera path driven by whole-page scroll ---------------- */
+  /* ---------------- Camera path driven by real section positions ----------------
+     Each 3D "scene" is anchored to the DOM section it visually represents. Camera
+     depth is computed by finding where the current scroll position falls between
+     two anchors and interpolating — instead of a single line from page-top to
+     page-bottom, which would desync from the content whenever the page's actual
+     length differs from what a fixed z-range assumed (e.g. after the portfolio
+     grid loads and changes total page height). */
   const CAM_START_Z = 34, CAM_END_Z = -258;
+  const WAYPOINTS = [
+    { id: "hero",            z: CAM_START_Z },
+    { id: "services",        z: -85  },
+    { id: "command-center",  z: -112 },
+    { id: "works",           z: -150 },
+    { id: "contact",         z: -196 },
+    { id: "footer",          z: CAM_END_Z },
+  ];
   let scrollProgress = 0;
+  let cameraZ = CAM_START_Z;
   let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
 
   window.addEventListener("mousemove", (e) => {
@@ -978,7 +1059,40 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
     targetMouseY = (e.clientY / window.innerHeight - 0.5);
   }, { passive: true });
 
+  function computeWaypointPositions(){
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    WAYPOINTS.forEach(wp => {
+      const el = document.getElementById(wp.id);
+      const top = el ? el.getBoundingClientRect().top + window.scrollY : 0;
+      // Treat a section as "reached" once its top has scrolled roughly to viewport-center,
+      // so the camera arrives at that scene while the section is actually on screen.
+      const anchorScroll = Math.min(Math.max(top - window.innerHeight * 0.5, 0), maxScroll);
+      wp.norm = anchorScroll / maxScroll;
+    });
+    // Guarantee strictly increasing normalized positions so interpolation never divides by zero
+    for (let i = 1; i < WAYPOINTS.length; i++){
+      if (WAYPOINTS[i].norm <= WAYPOINTS[i-1].norm) WAYPOINTS[i].norm = WAYPOINTS[i-1].norm + 0.0001;
+    }
+  }
+
+  function cameraZForProgress(p){
+    if (p <= WAYPOINTS[0].norm) return WAYPOINTS[0].z;
+    for (let i = 0; i < WAYPOINTS.length - 1; i++){
+      const a = WAYPOINTS[i], b = WAYPOINTS[i+1];
+      if (p <= b.norm){
+        const t = (p - a.norm) / (b.norm - a.norm);
+        return THREE.MathUtils.lerp(a.z, b.z, t);
+      }
+    }
+    return WAYPOINTS[WAYPOINTS.length - 1].z;
+  }
+
   function setupScrollCamera(){
+    computeWaypointPositions();
+    window.addEventListener("resize", computeWaypointPositions, { passive: true });
+    // Recompute once async content (the portfolio grid) has had a chance to load and
+    // change the page's total height, so waypoints stay accurate.
+    window.addEventListener("load", computeWaypointPositions);
     if (!(hasGSAP && typeof ScrollTrigger !== "undefined")) {
       window.addEventListener("scroll", () => {
         const doc = document.documentElement;
@@ -992,9 +1106,15 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
       start: "top top",
       end: "bottom bottom",
       scrub: true,
-      onUpdate: (self) => { scrollProgress = self.progress; }
+      onUpdate: (self) => { scrollProgress = self.progress; },
+      onRefresh: computeWaypointPositions
     });
   }
+  // Also recompute right after the project grid mounts, since it changes page height.
+  window.addEventListener("projects:rendered", () => {
+    computeWaypointPositions();
+    if (hasGSAP && typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
+  });
 
   const clock = new THREE.Clock();
 
@@ -1005,7 +1125,8 @@ if (hasGSAP && typeof ScrollTrigger !== "undefined") {
     const t = clock.elapsedTime;
 
     const weave = prefersReducedMotion ? 0 : 1;
-    const z = THREE.MathUtils.lerp(CAM_START_Z, CAM_END_Z, scrollProgress);
+    cameraZ = cameraZForProgress(scrollProgress);
+    const z = cameraZ;
     const weaveAmt = Math.sin(scrollProgress * Math.PI * 5) * 3.2 * weave;
     const bobAmt = Math.cos(scrollProgress * Math.PI * 4) * 1.6 * weave;
     mouseX += (targetMouseX - mouseX) * 0.04;
@@ -1100,9 +1221,9 @@ function finishIntro(){ /* placeholder, replaced by runIntro() below */ }
   const particleField = document.getElementById("intro-particles");
 
   const word = "ALMIGHTY WEB SOLUTIONS";
-  titleWrap.innerHTML = word.split("").map(ch =>
-    `<span class="ch">${ch === " " ? "&nbsp;" : ch}</span>`
-  ).join("");
+  titleWrap.innerHTML = word.split(" ").map(w =>
+    `<span class="word">${w.split("").map(ch => `<span class="ch">${ch}</span>`).join("")}</span>`
+  ).join(" ");
   const chars = titleWrap.querySelectorAll(".ch");
 
   const dotCount = prefersReducedMotion ? 0 : (window.innerWidth < 700 ? 26 : 46);
